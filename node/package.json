@@ -1,0 +1,56 @@
+{
+  "name": "cukesman-integration-webhook",
+  "version": "1.0.0",
+  "description": "❤",
+  "license": "proprietary",
+  "private": true,
+  "author": [
+    {
+      "name": "Sebastian Müller",
+      "email": "smueller@kukulili-labs.com"
+    },
+    {
+      "name": "Jan Stamer",
+      "email": "jan.stamer@gmail.com"
+    }
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": "~0.10.33",
+    "npm": "~1.4.28"
+  },
+  "scripts": {
+    "jshint": "./node_modules/.bin/jshint ./lib/",
+    "pretest": "npm run jshint",
+    "test": "./node_modules/.bin/mocha",
+    "test-watch": "./node_modules/.bin/mocha --growl --watch",
+    "test-cov-html": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --R test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@bitbucket.org:test-io/app.git"
+  },
+  "dependencies": {
+    "async": "^1.5.2",
+    "bcrypt": "^0.8.6",
+    "boom": "^3.1.2",
+    "gherkin": "^2.12.2",
+    "glob": "^5.0.7",
+    "hapi": "^13.3.0",
+    "hapi-auth-jwt": "^4.0.0",
+    "hapi-mailer": "^4.0.0",
+    "hoek": "^4.0.0",
+    "joi": "^8.0.4",
+    "lodash": "^4.11.2",
+    "mongoose-id-token": "^0.0.3"
+  },
+  "devDependencies": {
+    "mongoose": "~4.4.15",
+    "hapi-mongoose-db-connector": "^2.1.3",
+    "istanbul": "^0.3.14",
+    "jshint": "^2.7.0",
+    "mocha": "^2.2.5",
+    "should": "^6.0.3",
+    "test-helper": "git+ssh://git@bitbucket.org:cukesman/test-helper.git#v1.0.1"
+  }
+}
