@@ -1,4 +1,5 @@
-default: build
+.PHONY: default
+default: build;
 
 get-deps:
 	echo "No deps"

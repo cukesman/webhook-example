@@ -1,11 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 )
 
-type EventPayload struct {
+type eventPayload struct {
 	Identifier string `json:"id"`
 
 	// One Off Execution
@@ -20,25 +21,50 @@ type EventPayload struct {
 	PreviousFileName string `json:"previousFileName"`
 }
 
-type User struct {
-	FirstName string       `json:"firstName"`
-	LastName  string       `json:"lastName"`
-	Email     string       `json:"email"`
-	Payload   EventPayload `json:"payload"`
+type user struct {
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
+	Email     string `json:"email"`
 }
 
+// Event is triggered by Cukesman
 type Event struct {
-	Type string `json:"event"`
-	Date string `json:"date"`
-	User User   `json:"user"`
+	Type    string       `json:"event"`
+	Date    string       `json:"date"`
+	User    user         `json:"user"`
+	Payload eventPayload `json:"payload"`
 }
 
 var hookHandler = func(rw http.ResponseWriter, r *http.Request) {
-	log.Println("Received call from " + r.Host + r.Method)
+	if r.Method != "POST" {
+		log.Println("Ignoring", r.Method, "request.")
+		return
+	}
+
+	defer r.Body.Close()
+	decoder := json.NewDecoder(r.Body)
+	var t Event
+	err := decoder.Decode(&t)
+
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	log.Println("Received event \"", t.Type, "\".")
+
+	switch t.Type {
+	case "one-off-execution-created":
+		triggerBDDBuild(t.Payload.Identifier)
+	default:
+		log.Println("No handler for ", t.Type, "implemented.")
+	}
+
 }
 
 func main() {
 	http.HandleFunc("/", hookHandler)
 
+	log.Println("Webhook listener started ...")
 	http.ListenAndServe(":3600", nil)
 }
