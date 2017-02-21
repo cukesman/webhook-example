@@ -1,7 +1,7 @@
 .PHONY: default
 default: build
 
-all: clean get-deps test build
+all: clean get-deps build test
 
 get-deps:
 	go get "github.com/stretchr/testify/assert"
@@ -12,7 +12,7 @@ build:
 run:
 	./build/webhook
 
-test:
+te	st:
 	go test -v .
 
 clean:
