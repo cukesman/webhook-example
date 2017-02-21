@@ -12,7 +12,7 @@ build:
 run:
 	./build/webhook
 
-te	st:
+test:
 	go test -v .
 
 clean:
