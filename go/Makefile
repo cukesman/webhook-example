@@ -7,7 +7,7 @@ get-deps:
 	go get "github.com/stretchr/testify/assert"
 
 build:
-	go build -o ./build/webhook .
+	go build -o ./build/webhook -ldflags "-linkmode external -extldflags -static" .
 
 run:
 	./build/webhook
